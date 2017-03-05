@@ -14,7 +14,7 @@
   {:image "http://i.imgur.com/rVKbxnn.png" :text "Harry Potter"}
   {:image "http://i.imgur.com/UtGfrWZ.png" :text "Forrest Gump"}
   {:image "http://i.imgur.com/9eWwuP2.png" :text "Avatar"}
-  {:image "http://i.imgur.com/IsaOEoh.png" :text "James Bond Octopussy"}
+  {:image "http://i.imgur.com/IsaOEoh.png" :text "Octopussy"}
 ])
 
 (def wrong-options [
@@ -31,20 +31,20 @@
     {:content_type "text" :title "The Dark Knight" :payload "WRONG_ANSWER"}
  ]
  [
-    {:content_type "text" :title "The Chronicles of Narnia" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Braveheart" :payload "WRONG_ANSWER"}
     {:content_type "text" :title "King Arthur" :payload "WRONG_ANSWER"}
  ]
  [
-    {:content_type "text" :title "One upon a time in the West" :payload "WRONG_ANSWER"}
-    {:content_type "text" :title "National Lampoon's Vacation" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "The Lone Ranger" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Easy Rider" :payload "WRONG_ANSWER"}
  ]
  [
     {:content_type "text" :title "The Avengers" :payload "WRONG_ANSWER"}
     {:content_type "text" :title "Gravity" :payload "WRONG_ANSWER"}
  ]
  [
-    {:content_type "text" :title "James Bond Casino Royal" :payload "WRONG_ANSWER"}
-    {:content_type "text" :title "James Bond Goldfinger" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Casino Royal" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Goldfinger" :payload "WRONG_ANSWER"}
  ]
 ])
 
