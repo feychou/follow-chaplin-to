@@ -93,15 +93,6 @@
         attachments (get-in payload [:message :attachments])]
     (fb/send-message sender-id (fb/text-message "Thanks for your attachments :)"))))
 
-(defn on-attachments [payload]
-  (println "on-attachment payload:")
-  (println payload)
-  (let [sender-id (get-in payload [:sender :id])
-        recipient-id (get-in payload [:recipient :id])
-        time-of-message (get-in payload [:timestamp])
-        attachments (get-in payload [:message :attachments])]
-    (fb/send-message sender-id (fb/text-message "Thanks for your attachments :)"))))
-
 (defn on-quickreply [payload]
   (println "on-quickreply payload:")
   (println payload)
