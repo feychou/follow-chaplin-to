@@ -33,6 +33,7 @@
       (s/includes? (s/lower-case message-text) "image") (fb/send-message sender-id (fb/image-message "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/1280px-M101_hires_STScI-PRC2006-10a.jpg"))
       (s/includes? (s/lower-case message-text) "movie") (do
         (let [right-answer (get movie-guesses @level)]
+          (fb/send-message sender-id (fb/image-message (:image right-answer)))
           (fb/send-message sender-id
             (fb/quick-reply-message "Which movie is this scene from?"
               (shuffle [
