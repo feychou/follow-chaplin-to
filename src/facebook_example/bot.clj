@@ -53,8 +53,7 @@
     (fb/send-message sender-id (fb/image-message (:image right-answer)))
     (fb/send-message sender-id
       (fb/quick-reply-message "Which movie is this scene from?"
-        (shuffle (conj (get wrong-options @level) {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"})))))
-)
+        (shuffle (conj (get wrong-options @level) {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"}))))))
 
 (defn on-message [payload]
   (println "on-message payload:")
@@ -131,5 +130,4 @@
       )
       :else (do
         (swap! level inc)
-        (send-movie sender-id)
-    ))))
+        (send-movie sender-id)))))
