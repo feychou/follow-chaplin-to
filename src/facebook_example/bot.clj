@@ -121,5 +121,15 @@
         (fb/send-message sender-id (fb/text-message (str "The correct answer was " (:text (get right-options @level)) ".")))
         (fb/send-message sender-id (fb/text-message (str "Your current movie score is " @points (format " %c" (int 127916))))))
     )
-    (swap! level inc)
-    (send-movie sender-id)))
+    (cond
+      (= @level 6) (do
+        (fb/send-message sender-id (fb/image-message "https://media.giphy.com/media/aPUWIkCcerreE/giphy.gif"))
+        (fb/send-message sender-id (fb/text-message (str "Your final movie score is " @points (format " %c" (int 127916)))))
+        (reset! level 0)
+        (reset! points 0)
+        (fb/send-message sender-id (fb/button-message "Do you care for another round?" [{:type "postback" :title (format "And action! %c" (int 127916)) :payload "ACTION"}]))
+      )
+      :else (do
+        (swap! level inc)
+        (send-movie sender-id)
+    ))))
