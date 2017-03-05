@@ -110,8 +110,12 @@
         quick-reply (get-in payload [:message :quick_reply])
         quick-reply-payload (get-in payload [:message :quick_reply :payload])]
     (cond
-      (= quick-reply-payload "RIGHT_ANSWER") (fb/send-message sender-id (fb/text-message (str "Well done, congratulations! Your current movie score is: " (swap! points (partial + 10)) (format " %c" (int 127916)))))
-      :else (fb/send-message sender-id (fb/text-message "Sorry, the answer is not correct :("))
+      (= quick-reply-payload "RIGHT_ANSWER") (do
+        (fb/send-message sender-id (fb/text-message (str "Well done, congratulations!" (format " %c" (int 127881)))))
+        (fb/send-message sender-id (fb/text-message (str "Your current movie score is: " (swap! points (partial + 10)) (format " %c" (int 127916))))))
+      :else (do
+        (fb/send-message sender-id (fb/text-message "Sorry, the answer is not correct :("))
+        (fb/send-message sender-id (fb/text-message (str "Your current movie score is: " @points (format " %c" (int 127916))))))
     )
     (swap! level inc)
     (send-movie sender-id)))
