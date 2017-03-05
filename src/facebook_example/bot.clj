@@ -8,8 +8,13 @@
 (def level (atom 0))
 
 (def movie-guesses [
-  {:image "http://pmd205465tn.download.theplatform.com.edgesuite.net/Miramax/279/95/hiamxwYTqGi5jcQNYzQwZxZRYqvKxtw5_h264_3800_640x360_352124483894.jpg" :id "0/PULP_FICTION" :text "Pulp Fiction"}
-  {:image "http://www.crafthouseinc.com/uploads/movieImages/q0fWiFPHQy42g41mxNxci2QxTIW.jpg" :id "1/SHORTBUS" :text "Short Bus"}
+  {:image "https://s-media-cache-ak0.pinimg.com/736x/41/58/e6/4158e6c6c5204c458574b8de4c9bdbc3.jpg" :text "Lion King"}
+  {:image "http://images6.fanpop.com/image/polls/1160000/1160581_1356712201319_full.png?v=1356712261" :text "Game of Thrones"}
+  {:image "http://www.doc.govt.nz/global/images/places/lord-of-the-rings-locations/mt-sunday-edoras-1000.jpg" :text "Lord of the Rings"}
+  {:image "http://www.testedich.at/quiz38/picture/pic_1443842765_1.jpg" :text "Harry Potter"}
+  {:image "https://www.google.at/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwidsoT6gL_SAhVGxRQKHSMWBKMQjBwIBA&url=https%3A%2F%2Fstatic1.squarespace.com%2Fstatic%2F5266b2bde4b08e763cc132d2%2Ft%2F530673bfe4b09fae2c91bbf8%2F1392931776486%2F&psig=AFQjCNFAaTJ28A3I8NDv5B3R2h5pqV6ALg&ust=1488791025505415" :text "Forrest Gump"}
+  {:image "http://soyuz-pisatelei.ru/_fr/100/0420333.jpg" :text "Avatar"}
+  {:image "https://s-media-cache-ak0.pinimg.com/originals/21/4c/fb/214cfbfd41c1196747c61cceda5678de.jpg" :text "James Bond Octopussy"}
 ])
 ;
 ;(def random-options [
@@ -37,7 +42,7 @@
           (fb/send-message sender-id
             (fb/quick-reply-message "Which movie is this scene from?"
               (shuffle [
-                {:content_type "text" :title (:text right-answer) :payload "HELLO_BACK"}
+                {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"}
                 {:content_type "text" :title "hello to you" :payload "HELLO_TO_YOU"}
               ])))))
       ; If no rules apply echo the user's message-text input
@@ -82,5 +87,5 @@
         message (get-in payload [:message])
         quick-reply (get-in payload [:message :quick_reply])
         quick-reply-payload (get-in payload [:message :quick_reply :payload])]
-    (fb/send-message sender-id (fb/text-message (str "Thanks for your guess!" (swap! points (partial + 10)))))
+    (fb/send-message sender-id (fb/text-message (str "Thanks for your guess! Your current movie score is: " (swap! points (partial + 10)))))
     (swap! level inc)))
