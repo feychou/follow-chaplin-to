@@ -8,13 +8,13 @@
 (def level (atom 0))
 
 (def right-options [
-  {:image "https://s-media-cache-ak0.pinimg.com/736x/41/58/e6/4158e6c6c5204c458574b8de4c9bdbc3.jpg" :text "Lion King"}
-  {:image "http://images6.fanpop.com/image/polls/1160000/1160581_1356712201319_full.png?v=1356712261" :text "Game of Thrones"}
-  {:image "http://www.doc.govt.nz/global/images/places/lord-of-the-rings-locations/mt-sunday-edoras-1000.jpg" :text "Lord of the Rings"}
-  {:image "http://www.testedich.at/quiz38/picture/pic_1443842765_1.jpg" :text "Harry Potter"}
-  {:image "https://www.google.at/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwidsoT6gL_SAhVGxRQKHSMWBKMQjBwIBA&url=https%3A%2F%2Fstatic1.squarespace.com%2Fstatic%2F5266b2bde4b08e763cc132d2%2Ft%2F530673bfe4b09fae2c91bbf8%2F1392931776486%2F&psig=AFQjCNFAaTJ28A3I8NDv5B3R2h5pqV6ALg&ust=1488791025505415" :text "Forrest Gump"}
-  {:image "http://soyuz-pisatelei.ru/_fr/100/0420333.jpg" :text "Avatar"}
-  {:image "https://s-media-cache-ak0.pinimg.com/originals/21/4c/fb/214cfbfd41c1196747c61cceda5678de.jpg" :text "James Bond Octopussy"}
+  {:image "http://i.imgur.com/7wAzXRr.png" :text "Lion King"}
+  {:image "http://i.imgur.com/S2cJ1da.png" :text "Game of Thrones"}
+  {:image "http://i.imgur.com/UYfvj04.png" :text "Lord of the Rings"}
+  {:image "http://i.imgur.com/rVKbxnn.png" :text "Harry Potter"}
+  {:image "http://i.imgur.com/UtGfrWZ.png" :text "Forrest Gump"}
+  {:image "http://i.imgur.com/9eWwuP2.png" :text "Avatar"}
+  {:image "http://i.imgur.com/IsaOEoh.png" :text "James Bond Octopussy"}
 ])
 
 (def wrong-options [
@@ -112,10 +112,11 @@
     (cond
       (= quick-reply-payload "RIGHT_ANSWER") (do
         (fb/send-message sender-id (fb/text-message (str "Well done, congratulations!" (format " %c" (int 127881)))))
-        (fb/send-message sender-id (fb/text-message (str "Your current movie score is: " (swap! points (partial + 10)) (format " %c" (int 127916))))))
+        (fb/send-message sender-id (fb/text-message (str "Your current movie score is " (swap! points (partial + 10)) (format " %c" (int 127916))))))
       :else (do
-        (fb/send-message sender-id (fb/text-message "Sorry, the answer is not correct :("))
-        (fb/send-message sender-id (fb/text-message (str "Your current movie score is: " @points (format " %c" (int 127916))))))
+        (fb/send-message sender-id (fb/text-message "Sorry, you guessed wrong :("))
+        (fb/send-message sender-id (fb/text-message (str "The correct answer was " (:text (get right-options @level)) ".")))
+        (fb/send-message sender-id (fb/text-message (str "Your current movie score is " @points (format " %c" (int 127916))))))
     )
     (swap! level inc)
     (send-movie sender-id)))
