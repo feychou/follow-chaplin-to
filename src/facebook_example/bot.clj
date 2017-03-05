@@ -8,8 +8,8 @@
 (def level (atom 0))
 
 ;(def movie-guesses [
-;  {:image "" id: "" :text ""}
-;  {:image "" id: "" :text ""}
+;  {:image "http://pmd205465tn.download.theplatform.com.edgesuite.net/Miramax/279/95/hiamxwYTqGi5jcQNYzQwZxZRYqvKxtw5_h264_3800_640x360_352124483894.jpg" id: "0/PULP_FICTION" :text "Pulp Fiction"}
+;  {:image "http://www.crafthouseinc.com/uploads/movieImages/q0fWiFPHQy42g41mxNxci2QxTIW.jpg" id: "1/SHORTBUS" :text "Short Bus"}
 ;])
 ;
 ;(def random-options [
@@ -33,10 +33,10 @@
       (s/includes? (s/lower-case message-text) "image") (fb/send-message sender-id (fb/image-message "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/1280px-M101_hires_STScI-PRC2006-10a.jpg"))
       (s/includes? (s/lower-case message-text) "movie") (fb/send-message sender-id
         (fb/quick-reply-message "HELLO"
-          [
+          (shuffle [
             {:content_type "text" :title "hello back" :payload "HELLO_BACK"}
             {:content_type "text" :title "hello to you" :payload "HELLO_TO_YOU"}
-          ]))
+          ])))
       ; If no rules apply echo the user's message-text input
       :else (fb/send-message sender-id (fb/text-message message-text)))))
 
@@ -79,4 +79,5 @@
         message (get-in payload [:message])
         quick-reply (get-in payload [:message :quick_reply])
         quick-reply-payload (get-in payload [:message :quick_reply :payload])]
-    (fb/send-message sender-id (fb/text-message (str "Thanks for your guess!" (swap! points (partial + 10)))))))
+    (fb/send-message sender-id (fb/text-message (str "Thanks for your guess!" (swap! points (partial + 10)))))
+    (swap! level inc)))
