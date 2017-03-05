@@ -79,7 +79,10 @@
         postback (get-in payload [:postback :payload])
         referral (get-in payload [:postback :referral :ref])]
     (cond
-      (= postback "GET_STARTED") (fb/send-message sender-id (fb/text-message "Welcome =)"))
+      (= postback "GET_STARTED") (do
+        (fb/send-message sender-id (fb/image-message "https://media.giphy.com/media/11zhPvvouIdyi4/giphy.gif"))
+        (fb/send-message sender-id (fb/button-message "Hello movie lover, you may know me. I am Charlie Chaplin. Follow me to amazing places from movies past and guess the right one." [{:type "postback" :title (format "And action! %c" (int 127916)) :payload "ACTION"}])))
+      (= postback "ACTION") (send-movie sender-id)
       :else (fb/send-message sender-id (fb/text-message "Sorry, I don't know how to handle that postback")))))
 
 (defn on-attachments [payload]

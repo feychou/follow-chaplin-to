@@ -61,3 +61,9 @@
 
 (defn quick-reply-message [message-text buttons]
    {:text message-text :quick_replies buttons})
+
+(defn button-message [message-text buttons]
+  {:attachment {:type "template"
+                :payload {:template_type "button"
+                          :text message-text
+                          :buttons buttons}}})
