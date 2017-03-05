@@ -16,15 +16,37 @@
   {:image "http://soyuz-pisatelei.ru/_fr/100/0420333.jpg" :text "Avatar"}
   {:image "https://s-media-cache-ak0.pinimg.com/originals/21/4c/fb/214cfbfd41c1196747c61cceda5678de.jpg" :text "James Bond Octopussy"}
 ])
-;
-;(def wrong-options [
-;  "",
-;  "",
-;  "",
-;  "",
-;  "",
-;  ""
-;])
+
+(def wrong-options [
+ [
+    {:content_type "text" :title "Out of Africa" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Wild Life" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "The Great Wall" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "The Wizard of Oz" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "The Hobbit" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "The Dark Knight" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "The Chronicles of Narnia" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "King Arthur" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "One upon a time in the West" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "National Lampoon's Vacation" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "The Avengers" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "Gravity" :payload "WRONG_ANSWER"}
+ ]
+ [
+    {:content_type "text" :title "James Bond Casino Royal" :payload "WRONG_ANSWER"}
+    {:content_type "text" :title "James Bond Goldfinger" :payload "WRONG_ANSWER"}
+ ]
+])
 
 (defn on-message [payload]
   (println "on-message payload:")
@@ -41,10 +63,7 @@
           (fb/send-message sender-id (fb/image-message (:image right-answer)))
           (fb/send-message sender-id
             (fb/quick-reply-message "Which movie is this scene from?"
-              (shuffle [
-                {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"}
-                {:content_type "text" :title "hello to you" :payload "HELLO_TO_YOU"}
-              ])))))
+              (shuffle (conj (get wrong-options @level) {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"}))))))
       ; If no rules apply echo the user's message-text input
       :else (fb/send-message sender-id (fb/text-message message-text)))))
 
