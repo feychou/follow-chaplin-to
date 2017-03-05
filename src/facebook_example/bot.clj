@@ -48,6 +48,14 @@
  ]
 ])
 
+(defn send-movie [sender-id]
+  (let [right-answer (get right-options @level)]
+    (fb/send-message sender-id (fb/image-message (:image right-answer)))
+    (fb/send-message sender-id
+      (fb/quick-reply-message "Which movie is this scene from?"
+        (shuffle (conj (get wrong-options @level) {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"})))))
+)
+
 (defn on-message [payload]
   (println "on-message payload:")
   (println payload)
@@ -58,12 +66,7 @@
     (cond
       (s/includes? (s/lower-case message-text) "help") (fb/send-message sender-id (fb/text-message "Hi there, happy to help :)"))
       (s/includes? (s/lower-case message-text) "image") (fb/send-message sender-id (fb/image-message "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/1280px-M101_hires_STScI-PRC2006-10a.jpg"))
-      (s/includes? (s/lower-case message-text) "movie") (do
-        (let [right-answer (get right-options @level)]
-          (fb/send-message sender-id (fb/image-message (:image right-answer)))
-          (fb/send-message sender-id
-            (fb/quick-reply-message "Which movie is this scene from?"
-              (shuffle (conj (get wrong-options @level) {:content_type "text" :title (:text right-answer) :payload "RIGHT_ANSWER"}))))))
+      (s/includes? (s/lower-case message-text) "movie") (send-movie sender-id)
       ; If no rules apply echo the user's message-text input
       :else (fb/send-message sender-id (fb/text-message message-text)))))
 
@@ -107,4 +110,5 @@
         quick-reply (get-in payload [:message :quick_reply])
         quick-reply-payload (get-in payload [:message :quick_reply :payload])]
     (fb/send-message sender-id (fb/text-message (str "Well done, congratulations! Your current movie score is: " (swap! points (partial + 10)) (format " %c" (int 127916)))))
-    (swap! level inc)))
+    (swap! level inc)
+    (send-movie sender-id)))
