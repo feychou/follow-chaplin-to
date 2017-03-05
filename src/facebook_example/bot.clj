@@ -4,6 +4,23 @@
             [environ.core :refer [env]]
             [facebook-example.facebook :as fb]))
 
+(def points (atom 0))
+(def level (atom 0))
+
+;(def movie-guesses [
+;  {:image "" id: "" :text ""}
+;  {:image "" id: "" :text ""}
+;])
+;
+;(def random-options [
+;  "",
+;  "",
+;  "",
+;  "",
+;  "",
+;  ""
+;])
+
 (defn on-message [payload]
   (println "on-message payload:")
   (println payload)
@@ -62,4 +79,4 @@
         message (get-in payload [:message])
         quick-reply (get-in payload [:message :quick_reply])
         quick-reply-payload (get-in payload [:message :quick_reply :payload])]
-    (fb/send-message sender-id (fb/text-message "Thanks for your guess!"))))
+    (fb/send-message sender-id (fb/text-message (str "Thanks for your guess!" (swap! points (partial + 10)))))))
